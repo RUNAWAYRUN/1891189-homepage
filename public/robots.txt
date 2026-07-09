@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://1891189.xyz/sitemap-index.xml

@@ -1,0 +1,130 @@
+---
+import '../styles/global.css';
+import { profile, visibleLinks } from '../profile';
+
+const title = `${profile.name} - ${profile.title}`;
+const description = profile.tagline;
+const primaryLinks = visibleLinks.filter((link) => link.primary).slice(0, 2);
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="canonical" href="https://1891189.xyz/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content="https://1891189.xyz/" />
+    <meta property="og:image" content={profile.ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={profile.ogImage} />
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar" aria-label="Site header">
+        <a class="brand" href="/" aria-label={`${profile.name} home`}>
+          <span class="mark">18</span>
+          <span>{profile.handle}</span>
+        </a>
+        <nav class="nav" aria-label="Primary links">
+          {
+            visibleLinks.map((link) => (
+              <a href={link.href} target="_blank" rel="noreferrer">
+                {link.label}
+              </a>
+            ))
+          }
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero" aria-labelledby="page-title">
+          <div class="identity">
+            <p class="eyebrow">{profile.location} / {profile.title}</p>
+            <h1 id="page-title">{profile.name}</h1>
+            <p class="tagline">{profile.tagline}</p>
+            <div class="bio">
+              {profile.bio.map((item) => <p>{item}</p>)}
+            </div>
+            {
+              primaryLinks.length > 0 && (
+                <div class="actions" aria-label="Primary destinations">
+                  {primaryLinks.map((link) => (
+                    <a
+                      class:list={['button', { primary: link.primary }]}
+                      href={link.href}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <span>{link.label}</span>
+                      <span class="arrow" aria-hidden="true">↗</span>
+                    </a>
+                  ))}
+                </div>
+              )
+            }
+          </div>
+
+          <aside class="portrait-area" aria-label="Profile card">
+            <div class="portrait">
+              <img src={profile.avatar} alt={`${profile.name} avatar`} width="640" height="640" />
+              <div class="portrait-caption">
+                <div>
+                  <p class="caption-title">{profile.name}</p>
+                  <p class="caption-meta">Own domain, platform-native content.</p>
+                </div>
+                <span class="status-dot" aria-hidden="true"></span>
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        <section class="links-section" aria-labelledby="links-title">
+          <div class="links-inner">
+            <div>
+              <h2 id="links-title">入口</h2>
+              <p class="section-label">
+                主页只保留少量高信号链接，避免把一个个人名片做成需要维护的内容系统。
+              </p>
+            </div>
+            <div class="link-grid">
+              {
+                visibleLinks.map((link) => (
+                  <a class="link-card" href={link.href} target="_blank" rel="noreferrer">
+                    <strong>{link.label}</strong>
+                    <span>{link.description}</span>
+                  </a>
+                ))
+              }
+            </div>
+          </div>
+        </section>
+
+        <section class="meta-strip" aria-label="Quick facts">
+          <div class="meta-inner">
+            {
+              profile.highlights.map((item) => (
+                <div class="meta-item">
+                  <span>{item.label}</span>
+                  <strong>{item.value}</strong>
+                </div>
+              ))
+            }
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>© {new Date().getFullYear()} {profile.name}. Built as a lightweight static homepage.</span>
+      </footer>
+    </div>
+  </body>
+</html>
